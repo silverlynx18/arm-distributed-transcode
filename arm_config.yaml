@@ -1,0 +1,61 @@
+# Automatic Ripping Machine (A.R.M.) Configuration
+# Node A (DESKTOP-GUTKUGP) & Node B (mini-1)
+
+optical_drive:
+  letter: "E:"
+  device_name: "ASUS BW-16D1HT USB Device"
+  poll_interval_seconds: 5
+  auto_eject_immediately_on_dump: true
+
+directories:
+  scratch_root: "D:\\rips"
+  incoming: "D:\\rips\\incoming"
+  processing: "D:\\rips\\processing"
+  completed: "D:\\rips\\completed"
+  failed: "D:\\rips\\failed"
+  logs: "D:\\rips\\logs"
+
+makemkv:
+  executable: "C:\\Program Files (x86)\\MakeMKV\\makemkvcon64.exe"
+  min_length_seconds: 900 # 15 minutes to ignore promos, ads, and disc menus
+  disc_index: "disc:0"
+
+binaries:
+  ffmpeg: "C:\\Users\\owenm\\AppData\\Local\\Microsoft\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-8.1-full_build\\bin\\ffmpeg.exe"
+  ffprobe: "C:\\Users\\owenm\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-8.1-full_build\\bin\\ffprobe.exe"
+  topaz_dir: "D:\\Topaz Labs LLC\\Topaz Video AI"
+  realesrgan_vulkan: "D:\\tools\\realesrgan-ncnn-vulkan\\realesrgan-ncnn-vulkan.exe"
+
+upscaling:
+  enable_ai: true
+  threshold_height: 1080 # Any stream <= 1080p is routed to 4K super-resolution
+  target_width: 3840
+  target_height: 2160
+  model_animation: "realesr-animevideov3"
+  model_cinema: "realesrgan-x4plus"
+
+encoding:
+  codec: "av1_amf"
+  pix_fmt: "p010le"
+  quality: "quality"
+  rc: "cqp"
+  qp_i: 24
+  qp_p: 26
+  copy_audio: true
+  copy_subtitles: true
+
+network_destination:
+  node_b_ip: "192.168.4.1" # Dedicated direct 2.5GbE switch
+  media_base_path: "/mnt/storage/media"
+  tv_path: "/mnt/storage/media/tv"
+  movies_path: "/mnt/storage/media/movies"
+
+integrations:
+  gotify:
+    enabled: true
+    base_url: "https://notify.ryuns.net"
+    app_token: "gotify_arm_token"
+  jellyfin:
+    enabled: true
+    base_url: "http://192.168.4.1:8096"
+    api_key: "jellyfin_arm_sync_key"
